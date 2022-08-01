@@ -2,8 +2,8 @@ $(document).ready(function () {
   let input, height, width;
   $("input").on("change, keyup", function () {
     let currentInput = $(this).val();
-    let fixedInput = currentInput.replace(/[A-Za-z!@#$%^&*. ()]/g, "");
-    $(this).val(fixedInput);
+    let userInput = currentInput.replace(/[A-Za-z!@#$%^&*. ()]/g, "");
+    $(this).val(userInput);
   });
 
   $("button").click(function () {
@@ -13,7 +13,7 @@ $(document).ready(function () {
       height = Math.max(...input) + 1;
       width = input.length;
 
-      const output = generateWaterBlock(input);
+      const output = outputwater(input);
       waterTankProblem(input, "input", output);
       waterTankProblem(output, "output");
       document.getElementById("inputValue").value = "";
@@ -27,7 +27,7 @@ $(document).ready(function () {
     svg.setAttribute("width", `${400}px`);
     svg.setAttribute("viewBox", `0 0 200 200`);
 
-    function createYCoordinate() {
+    function yCoordinate() {
       let axis = 200 / height;
       for (let i = 0; i < height; i++) {
         const yline = document.createElementNS(
@@ -43,7 +43,7 @@ $(document).ready(function () {
       }
     }
 
-    function createXCoordinate() {
+    const xCoordinate = () => {
       let axis = 200 / width;
       for (let i = 0; i < width; i++) {
         const xline = document.createElementNS(
@@ -57,9 +57,9 @@ $(document).ready(function () {
         xline.setAttribute("stroke", "black");
         svg.appendChild(xline);
       }
-    }
+    };
 
-    function generateChart(data, name) {
+    const p5 = (data, name) => {
       data.forEach((entry, index) => {
         const bar = document.createElementNS(
           "http://www.w3.org/2000/svg",
@@ -74,7 +74,7 @@ $(document).ready(function () {
         }, 100 * index);
         svg.appendChild(bar);
       });
-    }
+    };
     document.getElementById(ID).innerHTML = "";
     document.getElementById(ID).appendChild(svg);
 
@@ -82,13 +82,13 @@ $(document).ready(function () {
       ID == "input" ? "[" + input + "]" : input.reduce((sum, a) => sum + a, 0);
     document.getElementById(ID + "array").innerHTML = display;
 
-    generateChart(input, ID);
-    if (output.length > 0) generateChart(output, "output");
-    createYCoordinate();
-    createXCoordinate();
+    p5(input, ID);
+    if (output.length > 0) p5(output, "output");
+    yCoordinate();
+    xCoordinate();
   }
 
-  function generateWaterBlock(input) {
+  const outputwater = (input) => {
     let tempElement = -1;
     let output = new Array(input.length).fill(0);
     for (let i = 0; i < input.length; i++) {
@@ -102,5 +102,5 @@ $(document).ready(function () {
       } else if (input[i] > 0 && input[i + 1] == 0) tempElement = i;
     }
     return output;
-  }
+  };
 });
