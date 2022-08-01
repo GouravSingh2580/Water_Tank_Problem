@@ -1,0 +1,38 @@
+body {
+  box-sizing: border-box;
+  padding: 20px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+svg {
+  background: #fff;
+  display: block;
+  margin: 0 auto;
+  border: 1px solid black;
+}
+
+#input rect {
+  fill: rgb(255,254,84);
+  stroke-width: 1px;
+  stroke: #fff;
+}
+
+#input #inputrect {
+  fill: rgb(255,254,84);
+  stroke-width: 1px;
+  stroke: #fff;
+}
+
+#input #outputrect {
+  fill: rgb(76,174,234);
+  stroke-width: 1px;
+  stroke: #fff;
+}
+
+#output rect {
+  fill: rgb(76,174,234);
+  stroke-width: 1px;
+  stroke: #fff;
+}
+
