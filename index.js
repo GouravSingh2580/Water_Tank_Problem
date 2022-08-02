@@ -1,6 +1,6 @@
 let input, height, width;
 class waterTank {
-  waterTankProblem(input, ID, output = []) {
+  solve(input, ID, output = []) {
     const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
     let eachCubicle = 200 / height;
     svg.setAttribute("height", `${400}px`);
@@ -67,7 +67,7 @@ class waterTank {
     yCoordinate();
     xCoordinate();
   }
-  outputwater = (input) => {
+  water = (input) => {
     let tempElement = -1;
     let output = new Array(input.length).fill(0);
     for (let i = 0; i < input.length; i++) {
@@ -93,14 +93,15 @@ $(document).ready(function () {
 
   $("button").click(function () {
     let textInput = document.getElementById("inputValue").value;
+    console.log(textInput);
     if (textInput) {
       input = textInput.split(",").map((el) => parseInt(el));
       height = Math.max(...input) + 1;
       width = input.length;
 
-      const output = obj.outputwater(input);
-      obj.waterTankProblem(input, "input", output);
-      obj.waterTankProblem(output, "output");
+      const output = obj.water(input);
+      obj.solve(input, "input", output);
+      obj.solve(output, "output");
       document.getElementById("inputValue").value = "";
     }
   });
