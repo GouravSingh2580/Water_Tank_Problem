@@ -1,26 +1,6 @@
-$(document).ready(function () {
-  let input, height, width;
-  $("input").on("change, keyup", function () {
-    let currentInput = $(this).val();
-    let userInput = currentInput.replace(/[A-Za-z!@#$%^&*. ()]/g, "");
-    $(this).val(userInput);
-  });
-
-  $("button").click(function () {
-    textInput = document.getElementById("inputValue").value;
-    if (textInput) {
-      input = textInput.split(",").map((el) => parseInt(el));
-      height = Math.max(...input) + 1;
-      width = input.length;
-
-      const output = outputwater(input);
-      waterTankProblem(input, "input", output);
-      waterTankProblem(output, "output");
-      document.getElementById("inputValue").value = "";
-    }
-  });
-
-  function waterTankProblem(input, ID, output = []) {
+let input, height, width;
+class waterTank {
+  waterTankProblem(input, ID, output = []) {
     const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
     let eachCubicle = 200 / height;
     svg.setAttribute("height", `${400}px`);
@@ -79,7 +59,7 @@ $(document).ready(function () {
     document.getElementById(ID).appendChild(svg);
 
     let display =
-      ID == "input" ? "[" + input + "]" : input.reduce((sum, a) => sum + a, 0);
+      ID === "input" ? "[" + input + "]" : input.reduce((sum, a) => sum + a, 0);
     document.getElementById(ID + "array").innerHTML = display;
 
     p5(input, ID);
@@ -87,19 +67,44 @@ $(document).ready(function () {
     yCoordinate();
     xCoordinate();
   }
+}
+var obj = new waterTank();
+$(document).ready(function () {
+  // let input, height, width;
+  $("input").on("change, keyup", function () {
+    let currentInput = $(this).val();
+    let userInput = currentInput.replace(/[A-Za-z!@#$%^&*. ()]/g, "");
+    $(this).val(userInput);
+  });
+
+  $("button").click(function () {
+    textInput = document.getElementById("inputValue").value;
+    if (textInput) {
+      input = textInput.split(",").map((el) => parseInt(el));
+      height = Math.max(...input) + 1;
+      width = input.length;
+
+      const output = outputwater(input);
+      obj.waterTankProblem(input, "input", output);
+      obj.waterTankProblem(output, "output");
+      document.getElementById("inputValue").value = "";
+    }
+  });
+
+  
 
   const outputwater = (input) => {
     let tempElement = -1;
     let output = new Array(input.length).fill(0);
     for (let i = 0; i < input.length; i++) {
       if (tempElement >= 0) {
-        if (input[i] > 0 && tempElement + 1 != i) {
+        if (input[i] > 0 && tempElement + 1 !== i) {
           let tempBlock =
             input[tempElement] < input[i] ? input[tempElement] : input[i];
           output.fill(tempBlock, tempElement + 1, i);
-          tempElement = input[i + 1] == 0 ? i : -1;
+          tempElement = input[i + 1] === 0 ? i : -1;
         }
-      } else if (input[i] > 0 && input[i + 1] == 0) tempElement = i;
+      } else if (input[i] > 0 && input[i + 1] === 0) tempElement = i;
     }
     return output;
   };
