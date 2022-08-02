@@ -67,33 +67,7 @@ class waterTank {
     yCoordinate();
     xCoordinate();
   }
-}
-var obj = new waterTank();
-$(document).ready(function () {
-  // let input, height, width;
-  $("input").on("change, keyup", function () {
-    let currentInput = $(this).val();
-    let userInput = currentInput.replace(/[A-Za-z!@#$%^&*. ()]/g, "");
-    $(this).val(userInput);
-  });
-
-  $("button").click(function () {
-    textInput = document.getElementById("inputValue").value;
-    if (textInput) {
-      input = textInput.split(",").map((el) => parseInt(el));
-      height = Math.max(...input) + 1;
-      width = input.length;
-
-      const output = outputwater(input);
-      obj.waterTankProblem(input, "input", output);
-      obj.waterTankProblem(output, "output");
-      document.getElementById("inputValue").value = "";
-    }
-  });
-
-  
-
-  const outputwater = (input) => {
+  outputwater = (input) => {
     let tempElement = -1;
     let output = new Array(input.length).fill(0);
     for (let i = 0; i < input.length; i++) {
@@ -108,4 +82,26 @@ $(document).ready(function () {
     }
     return output;
   };
+}
+var obj = new waterTank();
+$(document).ready(function () {
+  $("input").on("change, keyup", function () {
+    let currentInput = $(this).val();
+    let userInput = currentInput.replace(/[A-Za-z!@#$%^&*. ()]/g, "");
+    $(this).val(userInput);
+  });
+
+  $("button").click(function () {
+    let textInput = document.getElementById("inputValue").value;
+    if (textInput) {
+      input = textInput.split(",").map((el) => parseInt(el));
+      height = Math.max(...input) + 1;
+      width = input.length;
+
+      const output = obj.outputwater(input);
+      obj.waterTankProblem(input, "input", output);
+      obj.waterTankProblem(output, "output");
+      document.getElementById("inputValue").value = "";
+    }
+  });
 });
